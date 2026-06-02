@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Made in Xiaolin · Hub</title>
+<meta name="description" content="Made in Xiaolin — Colorado's only creative rolling studio. The deck, the Roller Academy, and everything Rolled Proper.">
+<meta name="theme-color" content="#7c0d15">
+<link rel="icon" href="img/xiaolin-logo.png">
+<link rel="apple-touch-icon" href="img/xiaolin-logo.png">
+<meta property="og:title" content="Made in Xiaolin · Hub">
+<meta property="og:description" content="The deck, the Roller Academy, and everything Rolled Proper.">
+<meta property="og:image" content="img/medallion.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6edd8; --bg2:#fbf5e6; --ink:#3a1a16; --ink-soft:#5a322a; --mute:#7a5848;
+    --red:#b3121f; --red-deep:#8c0d16; --gold:#a9791a; --gold-deep:#7e5a10; --gold-soft:#c79a36;
+    --line:rgba(140,16,24,.22); --line-soft:rgba(140,16,24,.12);
+    --card:#fffaf0; --card-line:rgba(169,121,26,.4);
+    --serif:'Cormorant Garamond',Georgia,serif; --sc:'Noto Serif SC',serif;
+    --sans:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;
+    background:radial-gradient(120% 90% at 80% 4%, var(--bg2), var(--bg) 62%) fixed;
+    color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+  .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");}
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;
+    padding:max(28px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));}
+
+  /* hero */
+  .hero{text-align:center;padding:26px 4px 8px}
+  .coin{width:104px;height:104px;margin:0 auto 18px;perspective:760px}
+  .coin .spin{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:coin 8s linear infinite;
+    filter:drop-shadow(0 6px 22px rgba(90,8,14,.4))}
+  @keyframes coin{to{transform:rotateY(360deg)}}
+  .coin img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;backface-visibility:hidden;
+    border:2px solid var(--gold-soft)}
+  .coin img.back{transform:rotateY(180deg)}
+  .kicker{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:10px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,9vw,4.4rem);line-height:.98;color:var(--red)}
+  .promise{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,4vw,1.7rem);color:var(--gold-deep);margin-top:.3rem}
+  .sub{font-size:.95rem;color:var(--mute);max-width:48ch;margin:14px auto 0;line-height:1.55}
+  .marque{display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;
+    font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin:16px 0 4px;font-weight:600}
+  .marque .x{color:var(--gold);font-family:var(--serif);font-style:italic;font-size:1.1rem;letter-spacing:0}
+  .rule{height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--red),transparent);border:0;margin:26px 0 22px;opacity:.7}
+
+  .eyebrow{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;text-align:center;margin-bottom:14px}
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+    background:var(--card);border:1px solid var(--card-line);border-radius:9px;overflow:hidden;
+    box-shadow:0 8px 26px rgba(90,8,14,.08);transition:transform .16s,box-shadow .16s,border-color .16s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(90,8,14,.14);border-color:var(--red)}
+  .card:active{transform:translateY(-1px)}
+  .card .thumb{height:140px;background:#efe6d2 center/cover no-repeat;position:relative}
+  .card .thumb.contain{background-size:contain;background-color:#f3ece0}
+  .card .thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(255,250,240,.85))}
+  .card .body{padding:16px 17px 18px;flex:1;display:flex;flex-direction:column}
+  .card .tag{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:5px}
+  .card h2{font-family:var(--serif);font-weight:600;font-size:1.45rem;line-height:1.05;color:var(--ink)}
+  .card p{font-size:.82rem;color:var(--mute);line-height:1.45;margin-top:6px;flex:1}
+  .card .go{margin-top:12px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;display:flex;align-items:center;gap:6px}
+  .card.soon{pointer-events:none;border-style:dashed;background:transparent;box-shadow:none;align-items:center;justify-content:center;min-height:180px;text-align:center}
+  .card.soon .body{align-items:center;justify-content:center}
+  .card.soon h2{color:var(--gold-deep);opacity:.7}
+  .card.soon p{flex:none}
+
+  .foot{text-align:center;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-top:34px;opacity:.85;line-height:2}
+  .foot a{color:var(--red);text-decoration:none}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.card .thumb{height:150px}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="wrap">
+  <div class="hero">
+    <div class="coin"><div class="spin">
+      <img src="img/medallion.jpg" alt="Xiaolin medallion">
+      <img class="back" src="img/medallion.jpg" alt="">
+    </div></div>
+    <div class="kicker">Made in Xiaolin</div>
+    <h1>The Studio</h1>
+    <div class="promise">Rolled Proper.</div>
+    <p class="sub">Colorado's only creative rolling studio, since 2018 — from the Temple in Evergreen. Everything we're building, in one place.</p>
+    <div class="marque"><span>High Times</span><span class="x">×</span><span>Playboy</span><span class="x">×</span><span>Forbes</span><span class="x">×</span><span>Westword</span></div>
+  </div>
+
+  <hr class="rule">
+  <div class="eyebrow">The Work</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="foot">
+    Made in Xiaolin · Evergreen, CO · Est. 2018<br>
+    <a href="mailto:sales@madeinxiaolin.com">sales@madeinxiaolin.com</a> · <a href="https://www.madeinxiaolin.com" target="_blank" rel="noopener">madeinxiaolin.com</a>
+  </div>
+</div>
+
+<script>
+/* Add future work here — one entry per card. */
+const WORK = [
+  {
+    tag: "Investor Deck",
+    title: "Cloud Ritual Experience",
+    desc: "The Xiaolin × SYPP Cloud Bar — a luxury cannabis hospitality deck. The chalice, the ritual, the rollout.",
+    url: "https://xiaolin.syppit.com",
+    thumb: "img/deck-thumb.jpg",
+  },
+  {
+    tag: "Budtender Program",
+    title: "The Roller Academy",
+    desc: "Train budtenders on the lineup, quiz them, and reward the best — discount codes, merch, and a seat on the High Council.",
+    url: "https://xiaolinbudtender.cannacrypted.com",
+    thumb: "img/academy-thumb.png",
+    contain: true,
+  },
+];
+
+const grid = document.getElementById("grid");
+grid.innerHTML = WORK.map(w => `
+  <a class="card" href="${w.url}" target="_blank" rel="noopener">
+    <div class="thumb${w.contain?' contain':''}" style="background-image:url('${w.thumb}')"></div>
+    <div class="body">
+      <div class="tag">${w.tag}</div>
+      <h2>${w.title}</h2>
+      <p>${w.desc}</p>
+      <div class="go">Open →</div>
+    </div>
+  </a>`).join("") + `
+  <div class="card soon"><div class="body">
+    <h2>More in the works</h2>
+    <p style="margin-top:6px">New drops, decks &amp; tools land here.</p>
+  </div></div>`;
+</script>
+</body>
+</html>
