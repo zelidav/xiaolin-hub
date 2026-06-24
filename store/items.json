@@ -1,26 +1,66 @@
 [
   {
-    "id": "trucker-hat",
-    "name": "Xiaolin Trucker Hat",
-    "price": 45.00,
-    "desc": "The red trucker — gold octagon crest, rope front. Rep the studio.",
-    "img": "https://xiaolinbudtender.cannacrypted.com/img/merch/hat-red.png",
+    "id": "chalice",
+    "name": "The Chalice Vaporizer",
+    "price": 220.00,
+    "desc": "The drinkable vaporizer — vapor fills the glass chalice and you sip it like a toast. No smoke, no ash. The Xiaolin centerpiece.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/Chalice-Maxim5.jpg?v=1716490353",
     "active": true
   },
   {
-    "id": "canvas-tote",
-    "name": "Xiaolin Canvas Tote",
-    "price": 35.00,
-    "desc": "Heavy cotton tote, lacquer-red with the Made in Xiaolin lockup.",
-    "img": "https://xiaolinbudtender.cannacrypted.com/img/merch/tote-red.png",
+    "id": "10mm-drag-on-tip",
+    "name": "The Drag-on Tip",
+    "price": 12.00,
+    "desc": "Reusable 10mm glass mouthpiece for properly rolled blunts — a cooler, smoother pull every time.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/Xiaolintip2.jpg?v=1707095894",
     "active": true
   },
   {
-    "id": "dragon-tip",
-    "name": "The Dragon Tip",
-    "price": 25.00,
-    "desc": "Reusable vortex glass mouthpiece — 8 holes for a cooler, smoother pull.",
-    "img": "https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png",
+    "id": "xiaolin-grinder",
+    "name": "Signature Grinder",
+    "price": 27.99,
+    "desc": "4-tier aluminum grinder for the optimal consistency — finished with the black Xiaolin logo.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/BlackLogoGrinderFront.jpg?v=1752608317",
+    "active": true
+  },
+  {
+    "id": "cannagar-cutter",
+    "name": "Cannagar Cutter",
+    "price": 20.00,
+    "desc": "Precision cannagar clippers — a clean, even cut every time, the Made in Xiaolin way.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/image0_e5b1269b-b83d-4e13-a51e-88cadcbe4805.jpg?v=1722978753",
+    "active": true
+  },
+  {
+    "id": "crystal-ash-tray",
+    "name": "Signature Ashtray",
+    "price": 39.00,
+    "desc": "Crystal ashtray with the red Xiaolin logo and indents sized perfectly for joints or cannagars.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/Silver_Ashtray.jpg?v=1720465527",
+    "active": true
+  },
+  {
+    "id": "xiaolin-hats",
+    "name": "Xiaolin Hat",
+    "price": 17.50,
+    "desc": "The Xiaolin cap — clean gold crest, built for summer. Rep the studio.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/Xiaolin_Hat_Photo_20250715.png?v=1752607306",
+    "active": true
+  },
+  {
+    "id": "pocket-lighter",
+    "name": "Torch Lighter",
+    "price": 12.50,
+    "desc": "The Xiaolin pocket torch — precision flame with the control a cannagar deserves.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/Redlighterback.jpg?v=1715524497",
+    "active": true
+  },
+  {
+    "id": "blunt-cones-with-glass-tip-6-pack",
+    "name": "Blunt Cones w/ Glass Tip (6-Pack)",
+    "price": 8.88,
+    "desc": "Six pre-rolled blunt cones, each fitted with a glass tip for a smooth, even draw.",
+    "img": "https://cdn.shopify.com/s/files/1/0630/4474/7444/files/BluntConesOpen.jpg?v=1752608024",
     "active": true
   }
 ]
