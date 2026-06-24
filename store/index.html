@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Made in Xiaolin — Store</title>
+<meta name="description" content="The Made in Xiaolin store — merch & accessories. Rolled Proper.">
+<meta name="theme-color" content="#7a0c12">
+<meta property="og:title" content="Made in Xiaolin — Store">
+<meta property="og:description" content="Merch & accessories. Rolled Proper.">
+<meta property="og:url" content="https://xiaolin.cannacrypted.com/store/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="store.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/store/">
+    <img src="https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png" alt="Made in Xiaolin">
+    <span class="nm">XIAOLIN</span>
+  </a>
+  <span class="tag">The Store</span>
+</header>
+
+<main id="shop">
+  <div class="hero">
+    <div class="kicker">Made in Xiaolin · Rolled Proper</div>
+    <h1>The Store</h1>
+    <p class="sub">Merch &amp; accessories — carry the studio. Secure checkout. Ships nationwide.</p>
+  </div>
+  <div id="grid" class="grid"><div class="loading">Loading the store…</div></div>
+</main>
+
+<div class="foot">Made in Xiaolin · Warwick, NY · 21+ · Merch &amp; accessories only</div>
+
+<!-- checkout overlay -->
+<div id="checkout" class="overlay hidden">
+  <div class="sheet">
+    <button class="x" onclick="closeCheckout()" aria-label="Close">✕</button>
+    <div id="co-body"></div>
+  </div>
+</div>
+
+<script src="store.js"></script>
+</body>
+</html>

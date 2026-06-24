@@ -1,0 +1,26 @@
+[
+  {
+    "id": "trucker-hat",
+    "name": "Xiaolin Trucker Hat",
+    "price": 45.00,
+    "desc": "The red trucker — gold octagon crest, rope front. Rep the studio.",
+    "img": "https://xiaolinbudtender.cannacrypted.com/img/merch/hat-red.png",
+    "active": true
+  },
+  {
+    "id": "canvas-tote",
+    "name": "Xiaolin Canvas Tote",
+    "price": 35.00,
+    "desc": "Heavy cotton tote, lacquer-red with the Made in Xiaolin lockup.",
+    "img": "https://xiaolinbudtender.cannacrypted.com/img/merch/tote-red.png",
+    "active": true
+  },
+  {
+    "id": "dragon-tip",
+    "name": "The Dragon Tip",
+    "price": 25.00,
+    "desc": "Reusable vortex glass mouthpiece — 8 holes for a cooler, smoother pull.",
+    "img": "https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png",
+    "active": true
+  }
+]

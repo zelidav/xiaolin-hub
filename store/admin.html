@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Xiaolin Store — Admin</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="store.css">
+<style>
+  .wrap{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+  h1{font-family:var(--serif);font-size:2rem;margin:.2em 0}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0;display:flex;gap:14px}
+  .item .thumb{width:84px;height:84px;flex-shrink:0;background:#fff;border:1px solid var(--line-soft);border-radius:10px;object-fit:contain;padding:6px}
+  .item .f{flex:1;min-width:0}
+  .item .row2{display:flex;gap:10px}
+  .item .row2>*{flex:1}
+  .pricebox{max-width:120px}
+  .tools{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .mini{font-size:.78rem;padding:8px 11px;border-radius:9px}
+  .toggle{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--ink-soft)}
+  .bar{position:sticky;bottom:0;background:rgba(246,239,226,.95);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:10px;justify-content:center}
+  .stat{text-align:center;color:var(--mute);font-size:.8rem;margin:6px 0}
+  textarea.fld{resize:vertical;min-height:48px}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/store/"><img src="https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png" alt=""><span class="nm">XIAOLIN</span></a>
+  <span class="tag">Store Admin</span>
+</header>
+<div class="wrap">
+  <h1>Manage the Store</h1>
+  <p class="stat" id="modeline"></p>
+  <div id="list"></div>
+  <button class="btn ghost block" onclick="addItem()">+ Add item</button>
+  <div class="err" id="err" style="margin-top:14px"></div>
+</div>
+<div class="bar">
+  <button class="btn gold" id="saveBtn" onclick="saveAll()" style="max-width:320px;width:100%">Save &amp; publish</button>
+</div>
+
+<script>
+const API = "https://xiaolin-support-804083036164.us-east1.run.app";
+let ITEMS = [], MODE = "sandbox";
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function key(){ let k=sessionStorage.getItem("xl_store_key"); if(!k){ k=prompt("Store admin password:"); if(k){k=k.trim();sessionStorage.setItem("xl_store_key",k);} } return k; }
+function slug(s){ return String(s||"item").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"").slice(0,40) || ("item-"+ITEMS.length); }
+
+async function load(){
+  try{ const r=await fetch(API+"/store/items",{cache:"no-store"}); const d=await r.json(); ITEMS=d.items||[]; MODE=d.mode||"sandbox"; }
+  catch(e){ ITEMS=[]; }
+  $("#modeline").textContent = "Payment mode: " + (MODE==="live"?"LIVE — real charges":"TEST (sandbox)");
+  render();
+}
+function render(){
+  $("#list").innerHTML = ITEMS.map((it,idx)=>`
+    <div class="item">
+      <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png'">
+      <div class="f">
+        <input class="fld" placeholder="Item name" value="${esc(it.name)}" oninput="upd(${idx},'name',this.value)">
+        <div class="row2" style="margin-top:8px">
+          <input class="fld pricebox" inputmode="decimal" placeholder="Price" value="${esc(it.price)}" oninput="upd(${idx},'price',this.value)">
+          <label class="toggle"><input type="checkbox" ${it.active!==false?"checked":""} onchange="upd(${idx},'active',this.checked)"> Visible</label>
+        </div>
+        <textarea class="fld" style="margin-top:8px" placeholder="Short description" oninput="upd(${idx},'desc',this.value)">${esc(it.desc)}</textarea>
+        <input class="fld" style="margin-top:8px" placeholder="Image URL" value="${esc(it.img)}" oninput="upd(${idx},'img',this.value);this.closest('.item').querySelector('.thumb').src=this.value">
+        <div class="tools">
+          <label class="btn ghost mini" style="cursor:pointer">Upload image<input type="file" accept="image/*" hidden onchange="uploadImg(${idx},this)"></label>
+          <button class="btn ghost mini" onclick="del(${idx})">Delete</button>
+        </div>
+      </div>
+    </div>`).join("") || `<p class="stat">No items yet — add one below.</p>`;
+}
+function upd(i,k,v){ if(k==="price") v=parseFloat(v)||0; ITEMS[i][k]=v; }
+function addItem(){ ITEMS.push({id:"",name:"",price:0,desc:"",img:"",active:true}); render(); window.scrollTo(0,document.body.scrollHeight); }
+function del(i){ if(confirm("Delete this item?")){ ITEMS.splice(i,1); render(); } }
+
+async function uploadImg(idx, input){
+  const f=input.files&&input.files[0]; if(!f) return;
+  const k=key(); if(!k) return;
+  const buf=await f.arrayBuffer(); let bin=""; const b=new Uint8Array(buf);
+  for(let i=0;i<b.length;i++) bin+=String.fromCharCode(b[i]);
+  const b64=btoa(bin);
+  const name=(slug(ITEMS[idx].name||f.name)+"."+(f.name.split(".").pop()||"png")).replace(/[^a-zA-Z0-9._-]/g,"-");
+  const r=await fetch(API+"/store/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k,name,data:b64})});
+  const d=await r.json();
+  if(d.ok){ ITEMS[idx].img=d.url; render(); } else { showErr(d.error||"Upload failed"); }
+}
+function showErr(m){ const e=$("#err"); e.textContent=m; e.classList.add("show"); setTimeout(()=>e.classList.remove("show"),6000); }
+
+async function saveAll(){
+  const k=key(); if(!k) return;
+  // finalize: assign ids, drop blank rows
+  const clean=ITEMS.filter(it=>(it.name||"").trim()).map(it=>({
+    id: (it.id&&String(it.id).trim())||slug(it.name), name:it.name.trim(),
+    price: parseFloat(it.price)||0, desc:(it.desc||"").trim(), img:(it.img||"").trim(), active: it.active!==false
+  }));
+  ITEMS=clean;
+  const btn=$("#saveBtn"); btn.disabled=true; const old=btn.textContent; btn.innerHTML='<span class="spin"></span>Publishing…';
+  try{
+    const r=await fetch(API+"/store/items",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k,items:ITEMS})});
+    const d=await r.json();
+    if(d.ok){ btn.textContent="✓ Published — live in ~1-2 min"; render(); setTimeout(()=>{btn.disabled=false;btn.textContent=old;},2500); }
+    else { if(/unauthorized/i.test(d.error||"")) sessionStorage.removeItem("xl_store_key"); showErr(d.error||"Save failed"); btn.disabled=false; btn.textContent=old; }
+  }catch(e){ showErr("Connection problem — try again."); btn.disabled=false; btn.textContent=old; }
+}
+load();
+</script>
+</body>
+</html>
