@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Xiaolin Store — Admin</title>
 <meta name="robots" content="noindex">
+<link rel="icon" href="/img/xiaolin-logo.png">
+<link rel="apple-touch-icon" href="/img/xiaolin-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="store.css">
 <style>
@@ -33,6 +35,20 @@
 <div class="wrap">
   <h1>Manage the Store</h1>
   <p class="stat" id="modeline"></p>
+
+  <div class="item" style="display:block">
+    <h2 style="font-family:var(--serif);font-size:1.4rem;margin:0 0 4px;color:var(--red-deep)">Purchase notifications</h2>
+    <p class="stat" style="text-align:left;margin:0 0 8px">Who gets emailed when a customer buys. One email per line — add the store/team and anyone else who should know. The customer is always emailed their own confirmation.</p>
+    <span class="flbl">In-house notification emails</span>
+    <textarea class="fld" id="cfg_emails" style="min-height:74px" placeholder="orders@madeinxiaolin.com&#10;chris@madeinxiaolin.com"></textarea>
+    <div class="row2" style="display:flex;gap:10px;margin-top:8px">
+      <div style="flex:1"><span class="flbl">Store / location name</span><input class="fld" id="cfg_store" placeholder="Made in Xiaolin"></div>
+    </div>
+    <span class="flbl">Pickup note (shown to customer)</span>
+    <input class="fld" id="cfg_pickup" placeholder="Show this confirmation at the counter to pick up your order.">
+  </div>
+
+  <h2 style="font-family:var(--serif);font-size:1.4rem;margin:18px 0 2px;color:var(--red-deep)">Items</h2>
   <div id="list"></div>
   <button class="btn ghost block" onclick="addItem()">+ Add item</button>
   <div class="err" id="err" style="margin-top:14px"></div>
@@ -52,8 +68,18 @@ function slug(s){ return String(s||"item").toLowerCase().replace(/[^a-z0-9]+/g,"
 async function load(){
   try{ const r=await fetch(API+"/store/items",{cache:"no-store"}); const d=await r.json(); ITEMS=d.items||[]; MODE=d.mode||"sandbox"; }
   catch(e){ ITEMS=[]; }
+  try{
+    const r=await fetch(API+"/store/config",{cache:"no-store"}); const d=await r.json(); const c=d.config||{};
+    $("#cfg_emails").value=(c.notify_emails||[]).join("\n");
+    $("#cfg_store").value=c.store_name||"";
+    $("#cfg_pickup").value=c.pickup_note||"";
+  }catch(e){}
   $("#modeline").textContent = "Payment mode: " + (MODE==="live"?"LIVE — real charges":"TEST (sandbox)");
   render();
+}
+function readConfig(){
+  const emails=($("#cfg_emails").value||"").split(/[\n,]+/).map(s=>s.trim()).filter(s=>s&&s.includes("@"));
+  return { notify_emails:emails, store_name:($("#cfg_store").value||"").trim(), pickup_note:($("#cfg_pickup").value||"").trim() };
 }
 function render(){
   $("#list").innerHTML = ITEMS.map((it,idx)=>`
@@ -103,8 +129,12 @@ async function saveAll(){
   try{
     const r=await fetch(API+"/store/items",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k,items:ITEMS})});
     const d=await r.json();
-    if(d.ok){ btn.textContent="✓ Published — live in ~1-2 min"; render(); setTimeout(()=>{btn.disabled=false;btn.textContent=old;},2500); }
-    else { if(/unauthorized/i.test(d.error||"")) sessionStorage.removeItem("xl_store_key"); showErr(d.error||"Save failed"); btn.disabled=false; btn.textContent=old; }
+    if(!d.ok){ if(/unauthorized/i.test(d.error||"")) sessionStorage.removeItem("xl_store_key"); showErr(d.error||"Save failed"); btn.disabled=false; btn.textContent=old; return; }
+    // also save notification settings
+    const rc=await fetch(API+"/store/config",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k,config:readConfig()})});
+    const dc=await rc.json();
+    if(!dc.ok){ showErr("Items saved, but settings failed: "+(dc.error||"")); btn.disabled=false; btn.textContent=old; return; }
+    btn.textContent="✓ Published — live in ~1-2 min"; render(); setTimeout(()=>{btn.disabled=false;btn.textContent=old;},2500);
   }catch(e){ showErr("Connection problem — try again."); btn.disabled=false; btn.textContent=old; }
 }
 load();

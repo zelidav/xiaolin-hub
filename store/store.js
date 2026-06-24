@@ -72,16 +72,11 @@ function renderCheckout() {
       <button class="qbtn" onclick="setQty(1)">+</button></div>
 
     <div class="sec-h">Your details</div>
+    <p class="note" style="margin:-2px 0 6px">Grab &amp; go — pick up in store. Your confirmation goes to your email &amp; phone.</p>
     <div class="two"><div><span class="flbl">First name</span><input class="fld" id="f_first" autocomplete="given-name"></div>
       <div><span class="flbl">Last name</span><input class="fld" id="f_last" autocomplete="family-name"></div></div>
-    <span class="flbl">Email</span><input class="fld" id="f_email" type="email" autocomplete="email" inputmode="email">
-    <span class="flbl">Phone</span><input class="fld" id="f_phone" type="tel" autocomplete="tel" inputmode="tel">
-
-    <div class="sec-h">Shipping address</div>
-    <span class="flbl">Street</span><input class="fld" id="f_street" autocomplete="address-line1">
-    <div class="two"><div><span class="flbl">City</span><input class="fld" id="f_city" autocomplete="address-level2"></div>
-      <div style="max-width:84px"><span class="flbl">State</span><input class="fld" id="f_state" maxlength="2" autocomplete="address-level1"></div>
-      <div style="max-width:110px"><span class="flbl">ZIP</span><input class="fld" id="f_zip" inputmode="numeric" autocomplete="postal-code"></div></div>
+    <span class="flbl">Email *</span><input class="fld" id="f_email" type="email" autocomplete="email" inputmode="email">
+    <span class="flbl">Phone *</span><input class="fld" id="f_phone" type="tel" autocomplete="tel" inputmode="tel">
 
     <div class="sec-h">Payment</div>
     <span class="flbl">Card number</span>
@@ -111,11 +106,12 @@ async function pay() {
   const data = {
     item_id: CUR.id, qty: QTY,
     first_name: g("f_first"), last_name: g("f_last"), email: g("f_email"), phone: g("f_phone"),
-    street: g("f_street"), city: g("f_city"), state: g("f_state"), zip: g("f_zip"),
     card, exp_month: g("f_mm"), exp_year: g("f_yy"), cvv: g("f_cvv")
   };
   $("#co-err").classList.remove("show");
-  if (!data.first_name || !data.last_name || !data.email) return showErr("Please add your name and email.");
+  if (!data.first_name || !data.last_name) return showErr("Please add your first and last name.");
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) return showErr("Please enter a valid email.");
+  if (data.phone.replace(/\D/g, "").length < 10) return showErr("Please enter a valid phone number.");
   if (card.length < 13 || !/^\d+$/.test(card)) return showErr("Enter a valid card number.");
   if (!/^\d{1,2}$/.test(data.exp_month) || +data.exp_month < 1 || +data.exp_month > 12) return showErr("Enter a valid expiry month (MM).");
   if (!/^\d{4}$/.test(data.exp_year)) return showErr("Enter a 4-digit expiry year (YYYY).");
@@ -140,7 +136,7 @@ function renderDone(d) {
     <div class="done">
       <div class="check">✓</div>
       <h2>Order confirmed</h2>
-      <p class="sub">Thank you${CUR ? " — your " + esc(CUR.name) + " is on the way" : ""}.</p>
+      <p class="sub">Thank you! Show this at the counter to grab your order — a confirmation is on its way to your email.</p>
       <div class="co-total" style="justify-content:center;gap:18px;border:0">
         <span>${esc(d.item || "")} ×${QTY}</span><span class="big">${money(d.total)}</span></div>
       ${d.last_4 ? `<div class="note">Card ending ${esc(d.last_4)} · ref ${esc(d.transaction_id || "")}</div>` : ""}
