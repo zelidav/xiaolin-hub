@@ -27,7 +27,7 @@ function renderGrid() {
   grid.innerHTML = live.map(i => `
     <div class="card">
       <div class="pic"><img src="${esc(i.img)}" alt="${esc(i.name)}" loading="lazy"
-        onerror="this.src='https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png'"></div>
+        onerror="this.src='https://thcxiaolin.cannacrypted.com/img/xiaolin-logo.png'"></div>
       <div class="body">
         <div class="nm">${esc(i.name)}</div>
         <div class="desc">${esc(i.desc || "")}</div>
@@ -63,7 +63,7 @@ function renderCheckout() {
   const chip = MODE !== "live" ? `<span class="sandbox-chip">Test mode</span>` : "";
   $("#co-body").innerHTML = `
     <div class="co-head">
-      <img src="${esc(i.img)}" alt="" onerror="this.src='https://xiaolinbudtender.cannacrypted.com/img/xiaolin-logo.png'">
+      <img src="${esc(i.img)}" alt="" onerror="this.src='https://thcxiaolin.cannacrypted.com/img/xiaolin-logo.png'">
       <div><div class="nm">${esc(i.name)}${chip}</div>
       <div class="price">${money(i.price)}</div></div>
     </div>
